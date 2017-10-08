@@ -73,14 +73,14 @@ namespace Sample
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();*/
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, MongoIdentityRole>()
                 .AddDefaultTokenProviders();
 
             services
                 .Configure<MongoDBOption>(Configuration.GetSection("MongoDBOption"))
                 .AddMongoDatabase()
-                .AddMongoDbContext<ApplicationUser, IdentityRole>()
-                .AddMongoStore<ApplicationUser, IdentityRole>();
+                .AddMongoDbContext<ApplicationUser, MongoIdentityRole>()
+                .AddMongoStore<ApplicationUser, MongoIdentityRole>();
 
             services.AddMvc();
 

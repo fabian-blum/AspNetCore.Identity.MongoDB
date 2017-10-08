@@ -1,22 +1,23 @@
+using global::MongoDB.Bson;
+using global::MongoDB.Bson.Serialization.Attributes;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using global::MongoDB.Bson;
-using global::MongoDB.Bson.Serialization.Attributes;
 
 
 namespace AspNetCore.Identity.MongoDB
 {
-    public class IdentityUser
+    public class MongoIdentityUser : IdentityUser
     {
-        public IdentityUser(string userName, string email)
-            :this()
+        public MongoIdentityUser(string userName, string email)
+            : this()
         {
             Email = email;
             UserName = userName;
         }
 
-        public IdentityUser()
+        public MongoIdentityUser()
         {
             Id = ObjectId.GenerateNewId().ToString();
             Roles = new List<string>();
@@ -27,28 +28,28 @@ namespace AspNetCore.Identity.MongoDB
 
 
         [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; private set; }
+        public override string Id { get; set; }
 
 
-        public string UserName { get; set; }
+        public override string UserName { get; set; }
 
         public string Name { get; set; }
         public string NormalizedName { get; set; }
 
-        public bool EmailConfirmed { get; set; }
-        public string Email { get; set; }
-        public string NormalizedEmail { get; set; }
-        public string PhoneNumber { get; set; }
-        public bool PhoneNumberConfirmed { get; set; }
+        public override bool EmailConfirmed { get; set; }
+        public override string Email { get; set; }
+        public override string NormalizedEmail { get; set; }
+        public override string PhoneNumber { get; set; }
+        public override bool PhoneNumberConfirmed { get; set; }
 
-        [BsonIgnoreIfNull]
-        public string PasswordHash { get; set; }
 
-        public string SecurityStamp { get; set; }
+        public override string PasswordHash { get; set; }
+
+        public override string SecurityStamp { get; set; }
         public DateTimeOffset? LockoutEndDate { get; set; }
-        public int AccessFailedCount { get; set; }
-        public bool LockoutEnabled { get; set; }
-        public bool TwoFactorEnabled { get; set; }
+        public override int AccessFailedCount { get; set; }
+        public override bool LockoutEnabled { get; set; }
+        public override bool TwoFactorEnabled { get; set; }
 
         [BsonIgnoreIfNull]
         public List<UserClaim> Claims { get; set; }

@@ -8,8 +8,8 @@ using MongoDB.Driver;
 namespace AspNetCore.Identity.MongoDB
 {
     public class RoleStore<TUser, TRole> : IRoleStore<TRole>, IQueryableRoleStore<TRole>
-        where TUser : IdentityUser
-        where TRole : IdentityRole
+        where TUser : MongoIdentityUser
+        where TRole : MongoIdentityRole
     {
         private readonly IMongoDBDbContext<TUser, TRole> _dbContext;
 

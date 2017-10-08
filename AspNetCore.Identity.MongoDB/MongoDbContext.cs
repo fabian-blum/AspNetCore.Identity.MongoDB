@@ -6,8 +6,8 @@ namespace AspNetCore.Identity.MongoDB
 {
 
     public class MongoDbContext<TUser, TRole> : IMongoDBDbContext<TUser, TRole> 
-        where TUser : IdentityUser
-        where TRole : IdentityRole
+        where TUser : MongoIdentityUser
+        where TRole : MongoIdentityRole
     {
         public MongoDbContext(IMongoDatabase database, IOptions<MongoDBOption> option)
         {

@@ -1,8 +1,8 @@
-﻿using System;
-using AspNetCore.Identity.MongoDB;
+﻿using AspNetCore.Identity.MongoDB;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using System;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -29,23 +29,23 @@ namespace Microsoft.Extensions.DependencyInjection
             return services;
         }
 
-        public static IServiceCollection AddMongoDbContext<TUser, TRole>(this IServiceCollection services) 
-            where TUser : IdentityUser
-            where TRole : IdentityRole
+        public static IServiceCollection AddMongoDbContext<TUser, TRole>(this IServiceCollection services)
+            where TUser : MongoIdentityUser
+            where TRole : MongoIdentityRole
         {
             services.AddTransient<IMongoDBDbContext<TUser, TRole>, MongoDbContext<TUser, TRole>>();
 
             return services;
         }
 
-        public static IServiceCollection AddMongoStore<TUser, TRole>(this IServiceCollection services) 
-            where TUser : IdentityUser
-            where TRole : IdentityRole
+        public static IServiceCollection AddMongoStore<TUser, TRole>(this IServiceCollection services)
+            where TUser : MongoIdentityUser
+            where TRole : MongoIdentityRole
         {
             services.AddTransient<IUserStore<TUser>, UserStore<TUser, TRole>>();
             services.AddTransient<IRoleStore<TRole>, RoleStore<TUser, TRole>>();
 
-            
+
             return services;
         }
     }

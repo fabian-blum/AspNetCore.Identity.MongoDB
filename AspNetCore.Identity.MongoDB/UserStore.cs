@@ -23,8 +23,8 @@ namespace AspNetCore.Identity.MongoDB
         IUserRoleStore<TUser>,
         IUserStore<TUser>
 
-        where TUser : IdentityUser
-        where TRole : IdentityRole
+        where TUser : MongoIdentityUser
+        where TRole : MongoIdentityRole
 
     {
         private readonly IMongoDBDbContext<TUser, TRole> _dbContext;

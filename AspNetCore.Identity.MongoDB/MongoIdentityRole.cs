@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using Microsoft.AspNetCore.Identity;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 
@@ -7,18 +8,18 @@ namespace AspNetCore.Identity.MongoDB
     /// <summary>
     /// Represents a role in the identity system
     /// </summary>
-    public class IdentityRole
+    public class MongoIdentityRole : IdentityRole<string>
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="IdentityRole"/>.
+        /// Initializes a new instance of <see cref="MongoIdentityRole"/>.
         /// </summary>
-        public IdentityRole() { }
+        public MongoIdentityRole() { }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="IdentityRole"/>.
+        /// Initializes a new instance of <see cref="MongoIdentityRole"/>.
         /// </summary>
         /// <param name="roleName">The role name.</param>
-        public IdentityRole(string roleName) : this()
+        public MongoIdentityRole(string roleName) : this()
         {
             Name = roleName;
             Id = ObjectId.GenerateNewId().ToString();
