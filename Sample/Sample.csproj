@@ -1,35 +1,25 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <UserSecretsId>aspnet-Sample-5C17ABDF-54B0-4F31-AF01-6ADBD4B3BA15</UserSecretsId>
   </PropertyGroup>
-  <PropertyGroup>
-    <PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8+wp8+wpa81;</PackageTargetFallback>
-  </PropertyGroup>
-  <PropertyGroup>
-    <UserSecretsId>aspnet-Sample-c67da4cd-59c4-453d-ad9b-c7d618006cda</UserSecretsId>
-  </PropertyGroup>
+
+
   <ItemGroup>
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.OAuth" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.0.0" />
   </ItemGroup>
+
   <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="1.0.1" />
-    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
+    <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Data\" />
-  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\FB.AspNetCore.Identity.MongoDB\FB.AspNetCore.Identity.MongoDB.csproj" />
   </ItemGroup>
+
 </Project>

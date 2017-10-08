@@ -4,13 +4,14 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>Michael de Guzman / Fabian Blum</Authors>
     <Company>Michael de Guzman / Fabian Blum</Company>
-    <Copyright />
+    <Copyright>Michael de Guzman</Copyright>
     <PackageLicenseUrl>https://github.com/fabian-blum/AspNetCore.Identity.MongoDB/blob/master/LICENSE</PackageLicenseUrl>
     <Description>ASP.NET Core Identity Extension using Mongo DB as storage</Description>
     <PackageProjectUrl>https://github.com/fabian-blum/AspNetCore.Identity.MongoDB</PackageProjectUrl>
     <RepositoryUrl>https://github.com/fabian-blum/AspNetCore.Identity.MongoDB</RepositoryUrl>
     <PackageTags>MongoDB, AspNetCore, 2.0, Identity</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
