@@ -19,14 +19,18 @@ namespace AspNetCore.Identity.MongoDB
         IUserPhoneNumberStore<TUser>,
         IQueryableUserStore<TUser>,
         IUserAuthenticationTokenStore<TUser>,
+        IUserAuthenticatorKeyStore<TUser>,
         IUserTwoFactorStore<TUser>,
+        IUserTwoFactorRecoveryCodeStore<TUser>,
         IUserRoleStore<TUser>,
         IUserStore<TUser>
-
         where TUser : MongoIdentityUser
         where TRole : MongoIdentityRole
-
     {
+        private const string AuthenticatorStoreLoginProvider = "[AspNetAuthenticatorStore]";
+        private const string AuthenticatorKeyTokenName = "AuthenticatorKey";
+        private const string RecoveryCodeTokenName = "RecoveryCodes";
+
         private readonly IMongoDBDbContext<TUser, TRole> _dbContext;
 
         public UserStore(IMongoDBDbContext<TUser, TRole> dbContext)
@@ -359,6 +363,45 @@ namespace AspNetCore.Identity.MongoDB
         {
             await _dbContext.User.FindOneAndReplaceAsync(u => u.Id == user.Id, user, null, cancellationToken);
             return IdentityResult.Success;
+        }
+
+        public Task SetAuthenticatorKeyAsync(TUser user, string key, CancellationToken cancellationToken)
+        {
+            return SetTokenAsync(user, AuthenticatorStoreLoginProvider, AuthenticatorKeyTokenName, key, cancellationToken);
+        }
+
+        public Task<string> GetAuthenticatorKeyAsync(TUser user, CancellationToken cancellationToken)
+        {
+            return GetTokenAsync(user, AuthenticatorStoreLoginProvider, AuthenticatorKeyTokenName, cancellationToken);
+        }
+
+        public Task ReplaceCodesAsync(TUser user, IEnumerable<string> recoveryCodes, CancellationToken cancellationToken)
+        {
+            var mergedCodes = string.Join(";", recoveryCodes);
+            return SetTokenAsync(user, AuthenticatorStoreLoginProvider, RecoveryCodeTokenName, mergedCodes, cancellationToken);
+        }
+
+        public async Task<bool> RedeemCodeAsync(TUser user, string code, CancellationToken cancellationToken)
+        {
+            var mergedCodes = await GetTokenAsync(user, AuthenticatorStoreLoginProvider, RecoveryCodeTokenName, cancellationToken) ?? "";
+            var splitCodes = mergedCodes.Split(';');
+            if (splitCodes.Contains(code))
+            {
+                var updatedCodes = new List<string>(splitCodes.Where(s => s != code));
+                await ReplaceCodesAsync(user, updatedCodes, cancellationToken);
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<int> CountCodesAsync(TUser user, CancellationToken cancellationToken)
+        {
+            var mergedCodes = await GetTokenAsync(user, AuthenticatorStoreLoginProvider, RecoveryCodeTokenName, cancellationToken) ?? "";
+            if (mergedCodes.Length > 0)
+            {
+                return mergedCodes.Split(';').Length;
+            }
+            return 0;
         }
     }
 }
