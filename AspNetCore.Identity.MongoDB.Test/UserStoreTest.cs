@@ -37,7 +37,7 @@ namespace AspNetCore.Identity.MongoDB.Test
 
             //var userStore = serviceProvider.GetService<IUserStore<IdentityUser>>();
 
-            var userManager = serviceProvider.GetService<UserManager<IdentityUser>>();
+            var userManager = serviceProvider.GetService<UserManager<MongoIdentityUser>>();
 
             var cancelToken = new CancellationTokenSource();
 
@@ -78,7 +78,7 @@ namespace AspNetCore.Identity.MongoDB.Test
 
             var serviceProvider = BuildServiceProvider();
 
-            var userManager = serviceProvider.GetService<UserManager<IdentityUser>>();
+            var userManager = serviceProvider.GetService<UserManager<MongoIdentityUser>>();
 
             var cancelToken = new CancellationTokenSource();
 
@@ -113,7 +113,7 @@ namespace AspNetCore.Identity.MongoDB.Test
 
             var serviceProvider = BuildServiceProvider();
 
-            var userManager = serviceProvider.GetService<UserManager<IdentityUser>>();
+            var userManager = serviceProvider.GetService<UserManager<MongoIdentityUser>>();
 
             var cancelToken = new CancellationTokenSource();
 
@@ -155,7 +155,7 @@ namespace AspNetCore.Identity.MongoDB.Test
             var guid = Guid.NewGuid().ToString();
             var cancelToken = new CancellationTokenSource();
 
-            await db.User.InsertOneAsync(new IdentityUser
+            await db.User.InsertOneAsync(new MongoIdentityUser
             {
                 Email = $"someone.email${new Random().NextDouble()}@gmail.com",
                 UserName = guid,
@@ -191,9 +191,9 @@ namespace AspNetCore.Identity.MongoDB.Test
         {
             var serviceProvider = BuildServiceProvider();
 
-            var userStore = serviceProvider.GetService<IUserStore<IdentityUser>>();
+            var userStore = serviceProvider.GetService<IUserStore<MongoIdentityUser>>();
 
-            var user = new IdentityUser
+            var user = new MongoIdentityUser
             {
                 Email = "someone.email@gmail.com",
                 UserName = "someone.email",
@@ -271,33 +271,33 @@ namespace AspNetCore.Identity.MongoDB.Test
                     option.Database = "AspCoreIdentity";
                 })
                 .AddMongoDatabase()
-                .AddMongoDbContext<IdentityUser, IdentityRole>()
-                .AddMongoStore<IdentityUser, IdentityRole>()
-                .AddTransient<IUserStore<IdentityUser>, UserStore<IdentityUser, IdentityRole>>()
-                .AddTransient<IUserClaimStore<IdentityUser>, UserStore<IdentityUser, IdentityRole>>()
-                .AddTransient<IUserPasswordStore<IdentityUser>, UserStore<IdentityUser, IdentityRole>>()
-                .AddTransient<IUserSecurityStampStore<IdentityUser>, UserStore<IdentityUser, IdentityRole>>()
-                .AddTransient<IUserEmailStore<IdentityUser>, UserStore<IdentityUser, IdentityRole>>()
-                .AddTransient<IUserLockoutStore<IdentityUser>, UserStore<IdentityUser, IdentityRole>>()
-                .AddTransient<IUserPhoneNumberStore<IdentityUser>, UserStore<IdentityUser, IdentityRole>>()
-                .AddTransient<IQueryableUserStore<IdentityUser>, UserStore<IdentityUser, IdentityRole>>()
-                .AddTransient<IUserAuthenticationTokenStore<IdentityUser>, UserStore<IdentityUser, IdentityRole>>()
-                .AddTransient<IUserTwoFactorStore<IdentityUser>, UserStore<IdentityUser, IdentityRole>>()
-                .AddTransient<IUserRoleStore<IdentityUser>, UserStore<IdentityUser, IdentityRole>>();
+                .AddMongoDbContext<MongoIdentityUser, MongoIdentityRole>()
+                .AddMongoStore<MongoIdentityUser, MongoIdentityRole>()
+                .AddTransient<IUserStore<MongoIdentityUser>, UserStore<MongoIdentityUser, MongoIdentityRole>>()
+                .AddTransient<IUserClaimStore<MongoIdentityUser>, UserStore<MongoIdentityUser, MongoIdentityRole>>()
+                .AddTransient<IUserPasswordStore<MongoIdentityUser>, UserStore<MongoIdentityUser, MongoIdentityRole>>()
+                .AddTransient<IUserSecurityStampStore<MongoIdentityUser>, UserStore<MongoIdentityUser, MongoIdentityRole>>()
+                .AddTransient<IUserEmailStore<MongoIdentityUser>, UserStore<MongoIdentityUser, MongoIdentityRole>>()
+                .AddTransient<IUserLockoutStore<MongoIdentityUser>, UserStore<MongoIdentityUser, MongoIdentityRole>>()
+                .AddTransient<IUserPhoneNumberStore<MongoIdentityUser>, UserStore<MongoIdentityUser, MongoIdentityRole>>()
+                .AddTransient<IQueryableUserStore<MongoIdentityUser>, UserStore<MongoIdentityUser, MongoIdentityRole>>()
+                .AddTransient<IUserAuthenticationTokenStore<MongoIdentityUser>, UserStore<MongoIdentityUser, MongoIdentityRole>>()
+                .AddTransient<IUserTwoFactorStore<MongoIdentityUser>, UserStore<MongoIdentityUser, MongoIdentityRole>>()
+                .AddTransient<IUserRoleStore<MongoIdentityUser>, UserStore<MongoIdentityUser, MongoIdentityRole>>();
 
             return services.BuildServiceProvider();
         }
 
-        private UserManager<IdentityUser> CreateManager()
+        private UserManager<MongoIdentityUser> CreateManager()
         {
             var serviceProvider = BuildServiceProvider();
 
-            return serviceProvider.GetService<UserManager<IdentityUser>>();
+            return serviceProvider.GetService<UserManager<MongoIdentityUser>>();
         }
 
-        private IdentityUser CreateTestUser()
+        private MongoIdentityUser CreateTestUser()
         {
-            return new IdentityUser
+            return new MongoIdentityUser
             {
                 Email = $"someone.email${new Random().NextDouble()}@gmail.com",
                 UserName = Guid.NewGuid().ToString(),
@@ -311,7 +311,7 @@ namespace AspNetCore.Identity.MongoDB.Test
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddDataProtection();
 
-            var builder = services.AddIdentity<IdentityUser, IdentityRole>(options =>
+            var builder = services.AddIdentity<MongoIdentityUser, IdentityRole>(options =>
             {
                 options.Password.RequireDigit = false;
                 options.Password.RequireLowercase = false;
